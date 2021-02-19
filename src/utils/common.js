@@ -22,7 +22,10 @@ const getParam = (name, url) => {
 // 获取元素距离上边的整个高度
 const getElementY = (elem) => {
   // 元素距离顶端高度+滚动条圈起高度
-  return window.pageYOffset + document.querySelector(elem).getBoundingClientRect().top
+  return (
+    window.pageYOffset +
+    document.querySelector(elem).getBoundingClientRect().top
+  )
 }
 
 /**
@@ -38,25 +41,24 @@ const scrollToElem = (elem, duration, offset) => {
   // 需要取滚动的距离(好好揣摩)
   const diff = elementY - startingY + offset
   // diff 为0，不需要滚动
-  if(!diff){return}
+  if (!diff) {
+    return
+  }
   // 变化曲线函数
-  const easing = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+  const easing = (t) =>
+    t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
   let start
-  window.requestAnimationFrame(function step(timestamp){
-    if(!start) start = timestamp
+  window.requestAnimationFrame(function step(timestamp) {
+    if (!start) start = timestamp
     // 计算时间的差值，根据差值计算偏移量
     const time = timestamp - start
     let percent = Math.min(time / duration, 1)
     percent = easing(percent)
     window.scrollTo(0, startingY + diff * percent)
 
-    if(time < duration){
+    if (time < duration) {
       window.requestAnimationFrame(step)
     }
   })
 }
-export {
-  getParams,
-  getParam,
-  scrollToElem
-}
+export { getParams, getParam, scrollToElem }

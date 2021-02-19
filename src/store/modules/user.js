@@ -82,9 +82,12 @@ export default {
       if (result.code === 200 && result.token) {
         const userInfo = result.data
         userInfo.username = payload.username
-        commit('SET_TOKEN', result.token)
-        commit('SET_USER', userInfo)
-        commit('SET_ISLOGIN', true)
+        // commit('SET_TOKEN', result.token)
+        // commit('SET_USER', userInfo)
+        // commit('SET_ISLOGIN', true)
+        commit([SET_TOKEN], result.token)
+        commit([SET_USER], userInfo)
+        commit([SET_ISLOGIN], true)
       }
       return result
     }

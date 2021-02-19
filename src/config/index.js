@@ -3,7 +3,7 @@ const isDev = process.env.NODE_ENV === 'development'
 export default {
   baseUrl: {
     dev: 'http://localhost:3000',
-    pro: 'http://www.toimc.com:12000'
+    pro: 'http://122.51.156.210:22000'
   },
   publicPath: [/^\/public/, /^\/login/],
   wsconfig: {

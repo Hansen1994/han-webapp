@@ -1,6 +1,6 @@
 import axios from '@/utils/request'
 import qs from 'qs'
-
+import store from '@/store'
 /**
  * 去读取文章列表
  * {Object} options 读取文章列表接口参数
@@ -41,7 +41,19 @@ const addPost = (data) => axios.post('/content/add', { ...data })
 /**
  * 获取文章详情
  */
-const getDetail = (tid) => axios.get('/public/content/detail?tid=' + tid)
+const getDetail = (tid) => {
+  // const token =
+  //   store.state.user.token
+  // let headers = {}
+  // if (token !== '') {
+  //   headers = {
+  //     headers: {
+  //       Authorization: 'Bearer ' + store.state.user.token
+  //     }
+  //   }
+  // }
+  return axios.get('/public/content/detail?tid=' + tid)
+}
 
 /**
  * 编辑帖子,更新文章
@@ -55,5 +67,5 @@ export {
   uploadImg,
   addPost,
   getDetail,
-  updatePost,
+  updatePost
 }

@@ -5,8 +5,8 @@ Vue.use(Vuex)
 
 const files = require.context('./modules', false, /\.js$/)
 const modules = {}
-
-// 动态加载vuex
+// console.log(files.keys())
+// 动态加载vuex,避免了以前一个一个去引用的麻烦
 files.keys().forEach((key) => {
   // 只保留文件名，去除后缀
   modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default

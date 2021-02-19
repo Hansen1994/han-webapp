@@ -4,17 +4,17 @@ export default {
   // 文本编译，就是对表情的编译
   richtext: {
     // 只进行一次
-    bind: function (el, binding, vnode) {
+    bind: function(el, binding, vnode) {
       el.innerHTML = escapeHtml(binding.value)
     },
     // 可以进行多次
-    componentUpdated: function (el, binding, vnode) {
+    componentUpdated: function(el, binding, vnode) {
       el.innerHTML = escapeHtml(binding.value)
     }
   },
   // 组件级权限控制
   hasRole: {
-    inserted: function (el, binding, vnode) {
+    inserted: function(el, binding, vnode) {
       let roles = store.state.userInfo.roles || ['user']
       console.log(roles)
       console.log(binding.value)
@@ -25,7 +25,7 @@ export default {
   },
   // 有无权限
   hasPermission: {
-    inserted: function (el, binding, vnode) {
+    inserted: function(el, binding, vnode) {
       let types = vnode.context.$route.meta.types
       let values = binding.value
       let flag = true

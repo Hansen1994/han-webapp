@@ -12,8 +12,8 @@ const getComments = (params) => {
     headers = {
       headers: {
         // 因为get接口是没有token 的，所以为了让handed的判断为1加上的
-        Authorization: 'Bearer ' + store.state.token,
-      },
+        Authorization: 'Bearer ' + token
+      }
     }
   }
   return axios.get('/public/comments?' + qs.stringify(params))
