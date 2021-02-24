@@ -74,8 +74,7 @@
           @focus="focus()"
           @blur="blur()"
         />
-        <span @click.stop="showFace()"
-          >1
+        <span @click.stop="showFace()">
           <svg-icon icon="smile" class="face"></svg-icon>
         </span>
       </span>
@@ -158,8 +157,8 @@ export default {
         this.faceStatus = false
       }
     }
-    document.removeEventListener('touchstart', faceHandler)
-    document.addEventListener('touchstart', faceHandler)
+    document.removeEventListener('touchstart', faceHander)
+    document.addEventListener('touchstart', faceHander)
   },
   watch: {
     faceStatus(newval, oldval) {

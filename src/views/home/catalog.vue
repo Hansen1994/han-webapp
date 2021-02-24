@@ -24,12 +24,13 @@
 <script>
 import { getList } from '@/api/content'
 export default {
+  name: 'catalog',
   // 这是路由定义的
   props: ['catalog'],
   data() {
     return {
       page: 0,
-      limit: 20,
+      limit: 10,
       lists: [],
       isEnd: false, // 判断是否为末尾页
       isRepeat: false, // 避免重复请求接口
@@ -42,12 +43,12 @@ export default {
       this.catalog = newval
       // 切换导航时候，page为0
       this.page = 0
+      this.lists = []
       this.init()
     }
   },
   mounted() {
     this._getList()
-
     this.footerHeight = document.getElementsByClassName(
       'layout-footer'
     )[0].offsetHeight
@@ -61,11 +62,11 @@ export default {
       }
       this.isEnd = false
       this.isRepeat = false
-      this.lists = []
       this._getList()
     },
     loadTop(end) {
       this.page = 0
+      this.lists = []
       // this._getList(end)
       this.handle = end
       this.init()
@@ -100,7 +101,7 @@ export default {
             if (this.lists.length === 0) {
               this.lists = res.data
             } else {
-              this.lists = tihs.lists.concat(res.data)
+              this.lists = this.lists.concat(res.data)
             }
           }
         })

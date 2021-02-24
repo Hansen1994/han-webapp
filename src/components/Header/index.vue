@@ -50,7 +50,7 @@ export default {
         this.back()
         return
       }
-      this.$router.go(-1)
+      this.$router.back()
     }
   }
 }

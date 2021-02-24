@@ -1,73 +1,53 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <!-- 这是路由级别过渡 -->
+    <transition :name="direction">
+      <keep-alive><router-view></router-view></keep-alive>
+    </transition>
   </div>
 </template>
 
 <script>
-import { login } from '@/api/login'
 import { forbidScroll } from '@/utils/forbidScroll'
 export default {
+  name: 'app',
+  data() {
+    return {
+      direction: ''
+    }
+  },
   // 模拟登入
   mounted() {
     const _this = this
     window.forbidScroll = forbidScroll
-    this._submit()
-    // 去识别是宽屏还是竖屏
-    // window.addEventListener(
-    //   'onorientationchange' in window ? 'orientationchange' : 'resize',
-    //   function() {
-    //     if (window.orientation === 180 || window.orientation === 0) {
-    //       _this.$Toast('竖屏状态！')
-    //     }
-    //     if (window.orientation === 90 || window.orientation === -90) {
-    //       _this.$Toast('请使用竖屏进行浏览！')
-    //     }
-    //   }
-    // )
   },
-  methods: {
-    _submit() {
-      login({
-        username: '646380243@qq.com',
-        password: '1234567',
-        code: '3Bq9',
-        sid: '123456789sa'
-      }).then((res) => {
-        if (res.code === 200) {
-          // 存储用户的登入名以备后续更改
-          console.log(res)
-          res.data.username = this.username
-          this.$store.commit('setUserInfo', res.data)
-          this.$store.commit('setIsLogin', true)
-          this.$store.commit('setToken', res.token)
-          this.username = ''
-          this.password = ''
-          this.code = ''
-          requestAnimationFrame(() => {})
-          // 清空表单
-          this.$refs.observer.reset() // 整个表单进行重置的操作
-          this.$router.push({ name: 'index' })
-          console.log(res)
-        } else if ((res.code = 401)) {
-          // 验证错误为服务器传回来的错误,后面必需以数组的方式
-          // this.$refs.codefield.setErrors([res.msg])
+  watch: {
+    // 通过监听路由来判断到底左滑还是右滑
+    $route(to, from) {
+      // 如果前端页面进行率先你，则无需加入transition动画
+      if (from.name === null) {
+        return
+      }
+      // 下一个切换的路由index小于上一个，右滑(退到上一页)
+      if (to.meta.index < from.meta.index) {
+        this.direction = 'slide-right'
+        // 否则相反
+      } else {
+        // 没有下一个了，跳出
+        if (!to.meta.index) {
+          this.direction = ''
+          return
         }
-      })
-      // .catch((err) => {
-      //   const data = err.response.data
-      //   if (data.code === 500) {
-      //     this.$alert('用户名和密码验证失败了，请检查噢~')
-      //   } else {
-      //     this.$alert('服务器错误')
-      //   }
-      // })
+        this.direction = 'slide-left'
+      }
     }
-  }
+  },
+  methods: {}
 }
 </script>
 
 <style lang="scss">
+@import './assets/styles/_mixin.scss';
 // 当手机屏幕宽度超过 $break-super: 480px, 横屏浏览时候的样式
 @media (min-width: $break-super) and (orientation: landscape) {
   html::before {
@@ -135,5 +115,91 @@ pre {
   font-size: 24px;
   border: none;
   border-left: 5px solid #ddd;
+}
+
+.input-wrap {
+  .code {
+    height: 80px;
+  }
+  svg {
+    width: 240px;
+    height: 70px;
+  }
+}
+.error {
+  color: #c00;
+  font-size: 24px;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+html,
+body {
+  touch-action: none;
+}
+
+// custom style for mint ui
+
+.mint-cell-wrapper {
+  @extend %border-line;
+}
+
+.cell-title {
+  .mint-cell-title {
+    align-self: flex-start;
+  }
+}
+
+.mint-cell {
+  padding: 0 20px;
+}
+.mint-cell-wrapper {
+  padding: 0 !important;
+}
+
+// 页面平移跳转动画样式
+.slide-right-enter-active,
+.slide-left-enter-active,
+.slide-right-leave-active,
+.slide-left-leave-active {
+  transition: all 0.5s;
+  will-change: transform;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+// 让上一级初始在左边
+.slide-right-enter {
+  transform: translateX(-100%);
+}
+// 让当前页面平滑过渡到右边
+.slide-right-leave-active,
+.slide-right-leave-to {
+  transform: translateX(100%);
+}
+// 为进入后的页面
+.slide-right-enter-to,
+.slide-right-leave {
+  transform: translateX(0);
+}
+.slide-left-enter {
+  transform: translateX(100%);
+}
+.slide-left-leave-active,
+.slide-left-leave-to {
+  transform: translateX(-100%);
+}
+.slide-left-enter-to,
+.slide-left-leave {
+  transform: translateX(0);
 }
 </style>

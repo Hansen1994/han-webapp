@@ -15,6 +15,11 @@ const moment = (date) => {
   }
 }
 
+const hours = (date) => {
+  return dayjs(date).format('HH:mm:ss')
+}
+
 export default {
-  moment
+  moment,
+  hours
 }

@@ -19,6 +19,8 @@ import 'normalize.css/normalize.css'
 import '@/assets/styles/theme.scss'
 import directives from '@/plugins/directives'
 
+// 引入校验
+import '@/plugins/veevalidate'
 // console.log(filters)
 // 通过遍历安装filters
 Object.keys(filters).forEach((key) => {

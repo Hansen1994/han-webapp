@@ -50,7 +50,7 @@ class HttpRequest {
           // 用来判断是否不需要token, 如果不需要则不用带上token
           isPublic = isPublic || path.test(config.use)
         })
-        const token = store.state.token
+        const token = store.state.user.token
         if (!isPublic && token) {
           config.headers.Authorization = 'Bearer ' + token
         }

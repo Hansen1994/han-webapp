@@ -10,6 +10,7 @@ import { getCode, login } from '@/api/login'
 import { v4 as uuidv4 } from 'uuid'
 
 export default {
+  namespaced: true,
   state: {
     sid: '',
     isLogin: false,
@@ -67,27 +68,25 @@ export default {
       // 更改app中的sid，全局vuex
       commit('SET_SID', sid)
       const result = await getCode(sid)
-      if (result.code === 200) {
-        // 返回到前端svg图片数据
-        return result.data
-      }
+      // if (result.code === 200) {
+      //   // 返回到前端svg图片数据
+      //   return result.data
+      // }
       return result
     },
     // 登录
     async login({ commit, state }, payload) {
+      // console.log(root)
       const result = await login({
         ...payload,
-        sid: state.user.sid
+        sid: state.sid
       })
       if (result.code === 200 && result.token) {
         const userInfo = result.data
         userInfo.username = payload.username
-        // commit('SET_TOKEN', result.token)
-        // commit('SET_USER', userInfo)
-        // commit('SET_ISLOGIN', true)
-        commit([SET_TOKEN], result.token)
-        commit([SET_USER], userInfo)
-        commit([SET_ISLOGIN], true)
+        commit(SET_TOKEN, result.token)
+        commit(SET_USER, userInfo)
+        commit(SET_ISLOGIN, true)
       }
       return result
     }

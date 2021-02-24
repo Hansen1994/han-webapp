@@ -15,8 +15,5 @@ files.keys().forEach((key) => {
 console.log('modules', modules)
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  modules
 })
